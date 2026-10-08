@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marco Favero Jr. · Desenvolvedor full stack</title>
+<meta name="description" content="Desenvolvedor full stack: Java com Spring Boot no back-end, Angular e React no front. Uma cidade em pixel art em que cada prédio é uma parte do meu currículo.">
+<meta name="theme-color" content="#080b12">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Marco Favero Jr. · Desenvolvedor full stack">
+<meta property="og:description" content="Java com Spring Boot, Angular e React. Passe o mouse pela cidade: cada prédio acende e mostra uma parte do meu currículo.">
+<meta property="og:url" content="https://marcofavero3.github.io/">
+<meta property="og:image" content="https://marcofavero3.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cidade isométrica em pixel art, à noite, com a torre Carreira acesa ao lado do nome Marco Favero Jr.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23080b12'/%3E%3Crect x='5' y='2' width='6' height='13' fill='%23626e8c'/%3E%3Crect x='6' y='4' width='1' height='1' fill='%23ffc45c'/%3E%3Crect x='9' y='4' width='1' height='1' fill='%23ffc45c'/%3E%3Crect x='6' y='7' width='1' height='1' fill='%23ffc45c'/%3E%3Crect x='9' y='10' width='1' height='1' fill='%23ffc45c'/%3E%3Crect x='6' y='12' width='1' height='1' fill='%23ffc45c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Silkscreen:wght@400;700&display=swap">
+<style>
+/* Layout: uma noite só. No desktop, texto à esquerda e a cidade isométrica à direita; no celular, empilhado. Abaixo, o currículo em coluna única para leitura. */
+:root{
+  color-scheme:dark;
+  --bg:#080b12; --panel:#0f141d; --ink:#e6ebf2; --dim:#93a0b3; --line:#232c3a;
+  --amber:#ffc45c; --req:#ff8c5a;
+  --display:"Silkscreen","Courier New",monospace;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:28px 72px}
+.wrap{max-width:1140px;margin:0 auto;display:flex;flex-direction:column;gap:64px}
+a{color:var(--amber)}
+a:focus-visible,button:focus-visible,canvas:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+p{margin:0;max-width:62ch}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px 36px;align-items:center}
+@media (max-width:1040px){.hero{grid-template-columns:1fr}}
+.intro{display:flex;flex-direction:column;gap:16px;min-width:0}
+.eyebrow{font:500 .76rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+h1{font:700 clamp(1.7rem,5.4vw,3rem)/1.05 var(--display);margin:0;text-wrap:balance}
+h1 span{color:var(--amber)}
+.lead{font-size:1.08rem}
+.city{display:flex;flex-direction:column;gap:10px;align-items:center;min-width:0}
+canvas{display:block;image-rendering:pixelated;image-rendering:crisp-edges;max-width:100%;touch-action:manipulation}
+.hint{font:400 .7rem var(--display);color:var(--dim);text-align:center}
+.card{border:1px solid var(--line);background:var(--panel);padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-height:10.5rem;border-left:3px solid var(--acc,var(--amber))}
+.card .k{font:400 .72rem var(--display);color:var(--acc,var(--amber))}
+.card h2{font:700 1.1rem var(--display);margin:0}
+.places{display:flex;flex-wrap:wrap;gap:6px}
+.places{justify-content:center}
+.places button{font:400 .7rem var(--display);color:var(--ink);background:transparent;border:1px solid var(--line);padding:6px 9px;cursor:pointer;min-height:40px;touch-action:manipulation}
+.places button[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+section{display:flex;flex-direction:column;gap:16px;min-width:0;max-width:880px}
+h2.sec{font:700 1.4rem var(--display);margin:0}
+h3{font:600 1.05rem var(--body);margin:0}
+.dim{color:var(--dim)}
+.todo{color:var(--req);border-bottom:1px dashed var(--req)}
+.xp{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.xp li{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:4px 24px;padding-block:16px;border-top:1px solid var(--line)}
+.xp .when{font:500 .78rem var(--mono);color:var(--dim)}
+.xp .when b{display:block;color:var(--ink);font-weight:600}
+.xp div{display:flex;flex-direction:column;gap:8px;min-width:0}
+.sub{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.sub li{display:block;padding:0 0 0 12px;border:0;border-left:2px solid var(--line)}
+.sub b{font-weight:600;color:var(--ink)}
+.sublabel{font:500 .72rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+@media (max-width:640px){.xp li{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.grid div{background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.grid span{font:500 .72rem var(--mono);color:var(--dim)}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);list-style:none;margin:0;padding:0}
+.contact li{background:var(--panel);padding:14px;min-width:0;overflow-wrap:anywhere}
+.contact b{display:block;font:500 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="intro">
+    <p class="eyebrow">Desenvolvedor full stack · Dracena, SP · remoto · inglês C1</p>
+    <h1>MARCO FAVERO <span>JR.</span></h1>
+    <p class="lead">Java com Spring Boot no back-end, Angular e React no front. Construo o sistema inteiro, do banco à tela.</p>
+    <div class="card" id="card" aria-live="polite">
+      <p class="k" id="ck"></p>
+      <h2 id="ct"></h2>
+      <p id="cd"></p>
+      <p><a id="cl" href="#exp">VER COMPLETO</a></p>
+    </div>
+  </div>
+  <div class="city">
+    <canvas id="cv" width="352" height="312" role="img" aria-label="Cidade isométrica em pixel art, à noite. Cada prédio é uma parte do currículo do Marco. Os prédios ficam apagados e acendem quando o cursor chega perto."></canvas>
+    <p class="hint" id="hint"></p>
+    <div class="places" id="places" aria-label="Prédios da cidade"></div>
+  </div>
+</header>
+
+<section id="exp">
+  <h2 class="sec">CARREIRA</h2>
+  <ul class="xp">
+    <li><span class="when"><b>Dev Dog Studio</b>abr/2026 até hoje</span><div><h3>Fundador e desenvolvedor</h3><p class="dim">Entrega de sistemas, landing pages, portfólios e pequenos projetos para o comércio.</p></div></li>
+    <li><span class="when"><b>Code Centauri</b>out/2024 a nov/2025<br>1 ano e 2 meses · remoto</span><div><h3>Desenvolvedor full stack</h3>
+      <p class="dim">Java com Spring Boot no back-end, Angular e React no front-end. Atuei em todas as frentes de três plataformas que desenvolvemos e escalamos em equipe: back-end, front-end, integração com APIs e testes.</p>
+      <ul class="sub">
+        <li class="dim"><b><a href="https://www.amp.org.br/web/" target="_blank" rel="noopener">AMP</a>, Associação Médica do Paraná.</b> Criei o módulo financeiro, que a plataforma ainda não tinha, com pagamentos pela API do Pagar.me, e ajustei o módulo com testes em todas as plataformas.</li>
+        <li class="dim"><b><a href="https://viddaa.com.br/" target="_blank" rel="noopener">VIDDAA</a>, gestão médica.</b> Back-end e front-end, com prescrição médica digital integrada à Memed.</li>
+        <li class="dim"><b><a href="https://tot.digital/" target="_blank" rel="noopener">TOT.DIGITAL</a>, contabilidade digital.</b> Back-end e front-end, com pagamentos pelo Pagar.me.</li>
+      </ul>
+      <p class="sublabel">Automações em n8n para outros clientes</p>
+      <ul class="sub">
+        <li class="dim"><b>Brink Mobil.</b> Varredura diária do Diário Oficial atrás das palavras-chave definidas pelo cliente.</li>
+        <li class="dim"><b>AGP.</b> Consulta automática de registro de marca pela InfoSimples.</li>
+        <li class="dim"><b>MC3.</b> Custos de obra reunidos num painel de BI, no lugar de dezenas de planilhas.</li>
+      </ul></div></li>
+    <li><span class="when"><b>Startalk.Pro</b>mar/2024 a out/2024<br>8 meses · remoto</span><div><h3>Desenvolvedor full stack</h3><p class="dim">Foco em automações com n8n e em suporte e atendimento ao cliente.</p></div></li>
+    <li><span class="when"><b>Infox Computers</b>desde 2019</span><div><h3>Antes do código: suporte e infraestrutura</h3><p class="dim">Atendimento ao cliente, infraestrutura, manutenção de hardware e venda de peças na minha assistência técnica.</p></div></li>
+  </ul>
+</section>
+
+<section id="proj">
+  <h2 class="sec">PROJETOS</h2>
+  <div class="grid">
+    <div><span>NO AR · REACT · TYPESCRIPT · SUPABASE</span><h3>Bancada</h3><p class="dim">Sistema de operações de uma assistência técnica: ordens de serviço, kanban, agenda, contas a receber e estoque por lotes com FIFO.</p></div>
+    <div><span>NO AR · REACT · SUPABASE · RESEND</span><h3>Closr</h3><p class="dim">Micro-SaaS de propostas e contratos para freelancers. <a href="https://useclosr.vercel.app" target="_blank" rel="noopener">useclosr.vercel.app</a></p></div>
+    <div><span>EM TESTES · ANGULAR · SUPABASE · LLM</span><h3>StudyOS</h3><p class="dim">Plataforma de estudos com IA. Dados de cada usuário isolados no banco com RLS e aulas processadas em lote por um modelo de linguagem.</p></div>
+    <div><span>EM USO POR UM CLIENTE · REACT · SUPABASE</span><h3>FavSys</h3><p class="dim">Gestão para vendedores do Mercado Livre: estoque, taxa calculada por venda e painel de indicadores. Roda localmente para um vendedor.</p></div>
+    <div><span>EM CONSTRUÇÃO · N8N · REACT · SUPABASE · LLM</span><h3>Ajustador de currículo</h3><p class="dim">Recebe a descrição de uma vaga e gera o currículo ajustado a ela, em PDF. O fluxo roda no n8n.</p></div>
+    <div><span>PAUSADO · REACT · SUPABASE · N8N · LLM</span><h3>PostDog</h3><p class="dim">Gerador de conteúdo para redes sociais de pequenos negócios. Fora do ar no momento.</p></div>
+  </div>
+</section>
+
+<section id="stack">
+  <h2 class="sec">STACK</h2>
+  <div class="grid">
+    <div><span>BACK-END</span><h3>Java com Spring Boot</h3><p class="dim">APIs, regras de negócio e modelagem de dados.</p></div>
+    <div><span>FRONT-END</span><h3>Angular e React</h3><p class="dim">TypeScript nos dois. Interfaces de uso diário, responsivas.</p></div>
+    <div><span>DADOS</span><h3>PostgreSQL</h3><p class="dim">Modelagem relacional e isolamento por usuário com RLS.</p></div>
+  </div>
+</section>
+
+<section id="auto">
+  <h2 class="sec">AUTOMAÇÃO E IA</h2>
+  <ul class="xp">
+    <li><span class="when">n8n</span><div><p class="dim">Automações para clientes: varredura diária do Diário Oficial por palavras-chave, consulta de registro de marca pela InfoSimples e custos de obra ligados a um painel de BI. Nos meus projetos: o ajustador de currículo e um fluxo que gera e publica conteúdo no Instagram.</p></div></li>
+    <li><span class="when">Modelos de linguagem</span><div><p class="dim">Processamento de aulas em lote no StudyOS e geração de currículo e de conteúdo a partir de texto.</p></div></li>
+    <li><span class="when">Pagar.me</span><div><p class="dim">API de pagamentos na AMP e na TOT.DIGITAL.</p></div></li>
+    <li><span class="when">Memed</span><div><p class="dim">Prescrição médica digital dentro da VIDDAA.</p></div></li>
+    <li><span class="when">Mercado Livre</span><div><p class="dim">Cálculo de taxas e acompanhamento de vendas no FavSys e no Bancada.</p></div></li>
+    <li><span class="when">Resend</span><div><p class="dim">Notificações por e-mail no Closr.</p></div></li>
+    <li><span class="when">Supabase</span><div><p class="dim">Autenticação, armazenamento de arquivos e Postgres com RLS.</p></div></li>
+  </ul>
+</section>
+
+<section id="form">
+  <h2 class="sec">FORMAÇÃO</h2>
+  <ul class="xp">
+    <li><span class="when">Graduação</span><div><p class="dim">Análise e Desenvolvimento de Sistemas, Fatec (Faculdade de Tecnologia do Estado de São Paulo).</p></div></li>
+    <li><span class="when">Pós-graduação</span><div><p class="dim">Engenharia de Software.</p></div></li>
+    <li><span class="when">Inglês</span><div><p class="dim">C1, avançado, pelo EF SET. <a href="https://cert.efset.org/WXJnvc" target="_blank" rel="noopener">Ver certificado</a></p></div></li>
+  </ul>
+</section>
+
+<section id="sobre">
+  <h2 class="sec">SOBRE MIM</h2>
+  <p>Sempre trabalhei com tecnologia. Comecei no atendimento ao cliente e no suporte, passei pela manutenção e venda de peças na minha assistência técnica e cheguei ao desenvolvimento de software. Conheço o caminho inteiro, de quem usa o sistema até quem o escreve.</p>
+  <p>Sou de Dracena, interior de São Paulo, e procuro vaga remota como desenvolvedor full stack.</p>
+</section>
+
+<section id="contato">
+  <h2 class="sec">CONTATO</h2>
+  <ul class="contact">
+    <li><b>LinkedIn</b><a href="https://www.linkedin.com/in/marco-favero/" target="_blank" rel="noopener">linkedin.com/in/marco-favero</a></li>
+    <li><b>E-mail</b><span style="user-select:all">dev.faveromarco@gmail.com</span></li>
+    <li><b>GitHub</b><a href="https://github.com/marcofavero3" target="_blank" rel="noopener">github.com/marcofavero3</a></li>
+  </ul>
+</section>
+</div>
+
+<script>
+(()=>{'use strict';
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),W=352,H=312,OX=176,OY=122;
+const img=ctx.createImageData(W,H),buf=new Uint32Array(img.data.buffer);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,canHover=matchMedia('(hover:hover)').matches;
+const BAY=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+const pk=(r,g,b)=>((255<<24)|(b<<16)|(g<<8)|r)>>>0;
+const P=c=>pk(c[0],c[1],c[2]);
+const h1=n=>{n=Math.imul(n|0,0x9E3779B1);n^=n>>>15;n=Math.imul(n,0x85EBCA77);return(n^(n>>>13))>>>0};
+const h2=(a,b)=>h1(Math.imul(a|0,374761393)+Math.imul(b|0,668265263));
+const put=(x,y,c)=>{if(x>=0&&x<W&&y>=0&&y<H)buf[y*W+x]=c};
+// material: cor de noite (n) e cor iluminada (d), em 8 degraus com pontilhado
+function lit(n,d,t,x,y){let k=(t*7+BAY[(y&3)<<2|(x&3)]/16)|0;if(k<0)k=0;if(k>7)k=7;const f=k/7;return pk(n[0]+(d[0]-n[0])*f,n[1]+(d[1]-n[1])*f,n[2]+(d[2]-n[2])*f)}
+const SX=(x,y)=>OX+x-y,SY=(x,y,z)=>OY+((x+y)>>1)-z;
+function box(x0,y0,a,b,z0,h,top,left,right){
+  for(let i=0;i<a;i++)for(let j=0;j<b;j++){const X=x0+i,Y=y0+j,x=SX(X,Y),y=SY(X,Y,z0+h);put(x,y,top(i,j,x,y))}
+  for(let u=0;u<a;u++){const X=x0+u,Y=y0+b,x=SX(X,Y),yt=SY(X,Y,z0+h);for(let v=0;v<h;v++)put(x,yt+v,left(u,v,x,yt+v))}
+  for(let u=0;u<b;u++){const X=x0+a,Y=y0+b-1-u,x=SX(X,Y),yt=SY(X,Y,z0+h);for(let v=0;v<h;v++)put(x,yt+v,right(u,v,x,yt+v))}
+}
+/* ---------- fonte 3x5 ---------- */
+const FD={A:'.#.#.#####.##.#',C:'.###..#..#...##',E:'####..##.#..###',F:'####..##.#..#..',I:'###.#..#..#.###',J:'..#..#..##.#.#.',K:'#.##.###.#.##.#',N:'##.#.##.##.##.#',O:'.#.#.##.##.#.#.',P:'##.#.###.#..#..',R:'##.#.###.#.##.#',S:'.###...#...###.',T:'###.#..#..#..#.',B:'##.#.###.#.###.',M:'#.#####.##.##.#',U:'#.##.##.##.####',X:'#.##.#.#.#.##.#'};
+function text(s,x,y,sc,c){for(const ch of s){const g=FD[ch==='Ç'?'C':ch==='Ã'?'A':ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r*3+q]==='#')for(let a=0;a<sc;a++)for(let b=0;b<sc;b++)put(x+q*sc+a,y+r*sc+b,c);
+  if(ch==='Ã'){for(const d of[1,2,5])put(x+d,y-4,c);for(const d of[0,3,4])put(x+d,y-3,c)}if(ch==='Ç'){put(x+3,y+10,c);put(x+2,y+11,c)}x+=4*sc}}
+
+/* ---------- prédios ---------- */
+const PITCH=54,BLK=40;
+const B=[
+ {id:'carreira',sign:'CARREIRA',bi:0,bj:0,a:30,b:30,h:74,n:[24,30,46],d:[98,110,140],acc:[255,196,92],win:[5,7,3,4],on:[255,214,130],to:'exp',
+  k:'TORRE CENTRAL',t:'CARREIRA',x:'Desenvolvedor full stack na Code Centauri de 2024 a 2025, do back-end ao front-end, em sistemas de saúde e contabilidade. Antes, automação e suporte na Startalk.Pro.'},
+ {id:'stack',sign:'STACK',bi:1,bj:0,a:34,b:30,h:44,n:[20,26,32],d:[82,96,106],acc:[110,200,255],win:[6,6,4,1],on:[130,205,255],to:'stack',
+  k:'DATACENTER',t:'STACK',x:'Java com Spring Boot no back-end. Angular e React com TypeScript no front. PostgreSQL nos dados.'},
+ {id:'auto',sign:'AUTOMAÇÃO',bi:0,bj:1,a:26,b:26,h:38,n:[32,26,40],d:[124,104,134],acc:[196,156,255],win:[6,7,3,4],on:[255,214,130],to:'auto',
+  k:'TORRE DE TRANSMISSÃO',t:'AUTOMAÇÃO E IA',x:'Automações em n8n para clientes e modelos de linguagem em sistemas reais. Integrações com Pagar.me, Memed, Mercado Livre e Resend.'},
+ {id:'fatec',sign:'FORMAÇÃO',bi:2,bj:0,a:36,b:28,h:26,n:[42,28,26],d:[182,120,96],acc:[130,224,150],win:[7,9,5,5],on:[255,226,160],to:'form',
+  k:'ESCOLA',t:'FORMAÇÃO',x:'Análise e Desenvolvimento de Sistemas pela Fatec, pós-graduação em Engenharia de Software e inglês C1 pelo EF SET.'},
+ {id:'proj',sign:'PROJETOS',bi:1,bj:1,a:36,b:32,h:30,n:[26,32,36],d:[112,130,132],acc:[255,140,90],win:[8,10,5,5],on:[255,214,130],to:'proj',
+  k:'OFICINA',t:'PROJETOS',x:'Bancada e Closr no ar, FavSys em uso por um cliente, StudyOS em testes e um ajustador de currículo em construção.'},
+ {id:'sobre',sign:'SOBRE',bi:0,bj:2,a:28,b:26,h:20,n:[54,30,14],d:[228,134,58],acc:[255,238,205],win:[9,12,7,8],on:[255,236,190],to:'sobre',
+  k:'CASA',t:'SOBRE MIM',x:'Sempre trabalhei com tecnologia: atendimento, suporte, venda de peças e desenvolvimento de software. Sou de Dracena, SP.'},
+ {id:'contato',sign:'CONTATO',bi:2,bj:1,a:26,b:24,h:24,n:[30,34,46],d:[152,162,180],acc:[255,116,116],win:[7,9,4,5],on:[255,214,130],to:'contato',
+  k:'CORREIO',t:'CONTATO',x:'LinkedIn, e-mail e GitHub.'}
+];
+B.forEach((o,i)=>{o.i=i;o.x0=o.bi*PITCH+((BLK-o.a)>>1);o.y0=o.bj*PITCH+((BLK-o.b)>>1);o.L=0;o.T=0;o.fl=0;o.key=o.x0+o.a+o.y0+o.b;
+  const cx=o.x0+o.a/2,cy=o.y0+o.b/2;o.cx=SX(cx,cy);o.top=SY(cx,cy,o.h+(o.id==='carreira'?24:o.id==='auto'?4:0));
+  const sw=o.sign.length*8-2+6;o.sg=[Math.round(o.cx-sw/2),o.top-27,sw,20];
+  o.bb=[SX(o.x0,o.y0+o.b)-2,o.sg[1]-2,SX(o.x0+o.a,o.y0)+2,SY(o.x0+o.a,o.y0+o.b,0)+2];o.body=[o.bb[0]+4,o.top,o.bb[2]-4,o.bb[3]-2]});
+function wallFn(o,face){const[cw,ch,ww,wh]=o.win,sh=face?1:.72,nn=o.n,dd=o.d;
+  return(u,v,x,y)=>{const cu=Math.floor((u-2)/cw),cvv=Math.floor((v-3)/ch),lu=u-2-cu*cw,lv=v-3-cvv*ch;
+    if(u>=2&&cu>=0&&lu<ww&&lv>=0&&lv<wh&&v<o.hh-4&&u<o.ww-2){const id=h2(o.i*7+face*3+cu,cvv+o.z*5),thr=.12+(id%100)/100*.8;
+      if(o.L>thr)return P(o.on);if(id%9===0&&o.id!=='sobre')return pk(o.on[0]*.45,o.on[1]*.42,o.on[2]*.36);return pk(nn[0]*.55,nn[1]*.6,nn[2]*.75)}
+    return lit(nn,dd,(.2+.55*o.L)*sh,x,y)}}
+function roofFn(o){return(i,j,x,y)=>lit(o.n,o.d,.12+.3*o.L,x,y)}
+function part(o,x0,y0,a,b,z0,h){o.ww=a;o.hh=h;o.z=z0;const l=wallFn(o,0);o.ww=a;const r=wallFn(o,1);
+  box(x0,y0,a,b,z0,h,roofFn(o),(u,v,x,y)=>{o.ww=a;o.hh=h;o.z=z0;return l(u,v,x,y)},(u,v,x,y)=>{o.ww=b;o.hh=h;o.z=z0;return r(u,v,x,y)})}
+function drawB(o){const{x0,y0,a,b,h}=o,acc=o.acc,on=o.L>.12;
+  part(o,x0,y0,a,b,0,h);
+  if(o.id==='carreira')part(o,x0+5,y0+5,20,20,h,24);
+  if(o.id==='stack'){for(let k=0;k<3;k++)box(x0+4+k*10,y0+6,6,8,h,3,(i,j,x,y)=>lit([40,46,52],[150,160,168],.2+.4*o.L,x,y),()=>pk(16,20,24),()=>pk(22,26,30));
+    for(let u=3;u<a-3;u++){put(SX(x0+u,y0+b),SY(x0+u,y0+b,10),on?P(acc):pk(26,40,52));put(SX(x0+u,y0+b),SY(x0+u,y0+b,24),on?P(acc):pk(26,40,52))}}
+  if(o.id==='auto'){const mx=SX(x0+13,y0+13),my=SY(x0+13,y0+13,h);for(let v=1;v<30;v++){put(mx,my-v,pk(120,124,136));if(v%5===0){put(mx-1,my-v,pk(120,124,136));put(mx+1,my-v,pk(120,124,136))}}
+    const bl=on&&(reduce||Math.sin(T*5)>0);put(mx,my-30,bl?pk(255,90,90):pk(110,40,40));put(mx,my-31,bl?pk(255,90,90):pk(110,40,40));
+    for(let k=-4;k<=4;k++){put(mx+7+k,my-6-Math.abs(k>>1),pk(170,176,190));put(mx+7+k,my-5-Math.abs(k>>1),pk(96,100,116))}}
+  if(o.id==='fatec'){const fx=SX(x0+2,y0+2),fy=SY(x0+2,y0+2,h);for(let v=1;v<16;v++)put(fx,fy-v,pk(150,154,166));for(let k=1;k<7;k++)for(let m=0;m<4;m++)put(fx+k,fy-15+m+(reduce?0:Math.round(Math.sin(T*3+k*.7))),on?P(acc):pk(40,70,52))}
+  if(o.id==='proj'){for(let u=6;u<24;u++)for(let v=h-16;v<h;v++){const x=SX(x0+u,y0+b),y=SY(x0+u,y0+b,h)+v;put(x,y,on?((v&3)===0?pk(200,150,90):P(o.on)):((v&3)===0?pk(18,22,26):pk(30,36,42)))}}
+  if(o.id==='contato'){box(x0+a+3,y0+b-6,4,4,0,7,(i,j,x,y)=>lit([70,22,22],[230,80,80],.3+.6*o.L,x,y),()=>pk(110,36,36),()=>pk(150,48,48))}
+  // porta
+  for(let u=(a>>1)-2;u<(a>>1)+2;u++)for(let v=h-7;v<h;v++)if(o.id!=='proj'){const x=SX(x0+a,y0+b-1-u),y=SY(x0+a,y0+b-1-u,h)+v;put(x,y,on?P(o.on):pk(12,14,20))}
+}
+function sign(o){const[x,y,w,hh]=o.sg,on=o.L>.12&&(o.fl<=0||h1((T*30|0)+o.i)%3>0),acc=o.acc;
+  for(let i=0;i<w;i++)for(let j=0;j<hh;j++)put(x+i,y+j,(i===0||j===0||i===w-1||j===hh-1)?(on?pk(acc[0]*.55,acc[1]*.55,acc[2]*.55):pk(34,40,52)):pk(10,12,18));
+  for(let v=0;v<7;v++){put(x+5,y+hh+v,pk(50,56,70));put(x+w-6,y+hh+v,pk(50,56,70))}
+  text(o.sign,x+3,y+6,2,on?P(acc):pk(44,50,62))}
+function glow(cx,cy,r,c,s){if(s<=.01)return;const x0=Math.max(0,cx-r|0),x1=Math.min(W-1,cx+r|0),y0=Math.max(0,cy-r|0),y1=Math.min(H-1,cy+r|0);
+  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const d=Math.hypot(x-cx,y-cy)/r;if(d>=1)continue;let k=(1-d)*(1-d)*s;k=((k*6+BAY[(y&3)<<2|(x&3)]/16)|0)/6;if(k<=0)continue;
+    const i=y*W+x,p=buf[i],R=Math.min(255,(p&255)+c[0]*k),G=Math.min(255,(p>>8&255)+c[1]*k),Bb=Math.min(255,(p>>16&255)+c[2]*k);buf[i]=pk(R,G,Bb)}}
+
+/* ---------- chão, postes, árvores, carros ---------- */
+const lamps=[],trees=[];
+for(let i=0;i<3;i++)for(let j=0;j<3;j++)lamps.push({x:i*PITCH+BLK+1,y:j*PITCH+BLK+1,b:B.find(o=>o.bi===i&&o.bj===j)});
+for(const[bx,by]of[[1,2],[2,2]])for(let k=0;k<7;k++){const r=h2(bx*9+k,by*5+k);trees.push({x:bx*PITCH+5+r%30,y:by*PITCH+5+(r>>8)%30,s:(r>>16)%3})}
+const cars=[{p:0,v:26,ax:1,c:[220,70,60]},{p:70,v:20,ax:0,c:[80,150,230]}];
+let lights=[];
+const GR={road:[[12,15,22],[74,78,90]],line:[[46,46,40],[226,200,120]],walk:[[24,28,38],[150,152,158]],grass:[[9,24,24],[52,128,76]],plaza:[[22,24,34],[134,128,120]],lot:[[18,21,28],[104,108,116]]};
+function ground(){
+  for(let X=-14;X<162;X++)for(let Y=-14;Y<162;Y++){const x=SX(X,Y),y=SY(X,Y,0);if(x<0||x>=W||y<0||y>=H)continue;
+    const mx=((X%PITCH)+PITCH)%PITCH,my=((Y%PITCH)+PITCH)%PITCH,rx=mx>=BLK,ry=my>=BLK;let m;
+    if(rx||ry){m=GR.road;if(rx&&!ry&&mx===BLK+7&&(my>>2)&1)m=GR.line;if(ry&&!rx&&my===BLK+7&&(mx>>2)&1)m=GR.line}
+    else if(mx<2||my<2||mx>=BLK-2||my>=BLK-2)m=GR.walk;
+    else{const bi=Math.floor(X/PITCH),bj=Math.floor(Y/PITCH);m=(bi===1&&bj===2)||(bi===2&&bj===2)?GR.grass:GR.lot;if(m===GR.grass&&bi===2&&Math.hypot(mx-20,my-20)<9)m=[[8,20,44],[60,130,190]]}
+    let t=.1;for(const l of lights){const dx=X-l.x,dy=Y-l.y,d2=dx*dx+dy*dy,r2=l.r*l.r;if(d2<r2){const k=1-Math.sqrt(d2)/l.r;t+=k*k*l.s}}
+    put(x,y,lit(m[0],m[1],Math.min(1,t),x,y))}
+  for(let u=0;u<176;u++)for(let v=1;v<7;v++){put(SX(-14+u,162),SY(-14+u,162,0)+v,pk(10,12,16));put(SX(162,161-u),SY(162,161-u,0)+v,pk(14,16,22))}
+}
+function lamp(l){const x=SX(l.x,l.y),y=SY(l.x,l.y,0);for(let v=1;v<10;v++)put(x,y-v,pk(64,70,84));const s=l.s;put(x,y-10,pk(120+135*s,110+110*s,80+60*s));put(x+1,y-10,pk(120+135*s,110+110*s,80+60*s))}
+function tree(t){const x=SX(t.x,t.y),y=SY(t.x,t.y,0);let lt=.14;for(const l of lights){const d=Math.hypot(t.x-l.x,t.y-l.y);if(d<l.r)lt+=(1-d/l.r)**2*l.s}
+  put(x,y-1,pk(50,36,26));put(x,y-2,pk(50,36,26));const r=3+t.s;for(let i=-r;i<=r;i++)for(let j=-r;j<=r-1;j++)if(i*i+j*j*1.3<r*r)put(x+i,y-3-r+j,lit([8,26,22],[58,140,84],Math.min(1,lt+(j<0?.12:0)),x+i,y+j))}
+function car(c){const along=c.p-14,X=c.ax?along:PITCH+BLK+4,Y=c.ax?BLK+4:along;c.X=X;c.Y=Y;
+  box(X,Y,c.ax?7:4,c.ax?4:7,0,3,()=>pk(c.c[0]*.7,c.c[1]*.7,c.c[2]*.7),()=>pk(c.c[0]*.45,c.c[1]*.45,c.c[2]*.45),()=>pk(c.c[0]*.6,c.c[1]*.6,c.c[2]*.6));
+  const hx=c.ax?X+7:X+1,hy=c.ax?Y+1:Y+7;put(SX(hx,hy),SY(hx,hy,1),pk(255,244,190));put(SX(hx,hy)+(c.ax?0:1),SY(hx,hy,1)+1,pk(255,244,190))}
+
+/* ---------- céu ---------- */
+const stars=[];for(let i=0;i<70;i++){const r=h1(i*77+5);stars.push([r%W,(r>>9)%150,(r>>20)%3])}
+function sky(){for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=Math.max(0,1-Math.hypot((x-OX)/1.25,y-190)/150);buf[y*W+x]=lit([8,11,18],[18,24,42],t*.9,x,y)}
+  for(const s of stars){const tw=reduce?1:(.6+.4*Math.sin(T*1.5+s[0]));const v=(s[2]===0?150:90)*tw;put(s[0],s[1],pk(v,v,v+30))}
+  for(let i=-7;i<=7;i++)for(let j=-7;j<=7;j++)if(i*i+j*j<46&&(i+3)*(i+3)+(j+2)*(j+2)>30)put(300+i,34+j,pk(226,226,204))}
+
+/* ---------- estado e laço ---------- */
+let T=0,ptr=null,sel='carreira',kb=null,hov=null;
+const dist=(o,x,y,body)=>{const[a,b,c,d]=body?o.body:o.bb,dx=Math.max(a-x,0,x-c),dy=Math.max(b-y,0,y-d);return Math.hypot(dx,dy)};
+function hit(x,y){let best=null;for(const o of B)if(dist(o,x,y)===0&&(!best||o.key>best.key))best=o;return best}
+function update(dt){T+=dt;
+  for(const o of B){let t=o.id===sel||o.id===kb?1:0;if(ptr){const d=o===hov?0:dist(o,ptr[0],ptr[1],true);t=Math.max(t,Math.pow(Math.max(0,1-d/30),2)*(hov&&o!==hov?.45:1))}
+    if(t>.5&&o.T<=.5)o.fl=reduce?0:.35;o.T=t;o.fl-=dt;o.L+=(t-o.L)*Math.min(1,dt*(t>o.L?7:3))}
+  for(const c of cars){c.p+=c.v*dt;if(c.p>190)c.p=0}
+  lights=[];for(const l of lamps){l.s=Math.max(.3,l.b?l.b.L:0);if(ptr){const d=Math.hypot(SX(l.x,l.y)-ptr[0],SY(l.x,l.y,6)-ptr[1]);l.s=Math.max(l.s,Math.max(0,1-d/60))}lights.push({x:l.x,y:l.y,r:26,s:l.s*.75})}
+  for(const o of B)if(o.L>.05)lights.push({x:o.x0+o.a+4,y:o.y0+o.b+4,r:34,s:o.L*.7});
+  for(const c of cars){const along=c.p-14;lights.push({x:c.ax?along+14:PITCH+BLK+6,y:c.ax?BLK+6:along+14,r:16,s:.7})}
+  if(ptr){const sx=ptr[0]-OX,sy=ptr[1]-OY;lights.push({x:(2*sy+sx)/2,y:(2*sy-sx)/2,r:24,s:.5})}
+}
+function render(){sky();ground();
+  const objs=[];for(const o of B)objs.push([o.key,0,o]);for(const l of lamps)objs.push([l.x+l.y,1,l]);for(const t of trees)objs.push([t.x+t.y,2,t]);for(const c of cars){const a=c.p-14;objs.push([c.ax?a+BLK+15:a+PITCH+BLK+15,3,c])}
+  objs.sort((a,b)=>a[0]-b[0]);
+  for(const[,k,o]of objs){if(k===0)drawB(o);else if(k===1)lamp(o);else if(k===2)tree(o);else car(o)}
+  for(const l of lamps)glow(SX(l.x,l.y),SY(l.x,l.y,10),9,[255,214,140],l.s*.5);
+  for(const o of B){sign(o);const on=o.L>.12;if(on)glow(o.sg[0]+o.sg[2]/2,o.sg[1]+10,o.sg[2]*.7,o.acc,o.L*.42)}
+  ctx.putImageData(img,0,0)}
+let last=0,raf=0,vis=true;
+function loop(ts){raf=0;const dt=Math.min(.05,(ts-last)/1000||0);last=ts;update(dt);render();if(vis&&!document.hidden&&!reduce)raf=requestAnimationFrame(loop)}
+function kick(){if(!raf&&vis&&!document.hidden){last=performance.now();raf=requestAnimationFrame(loop)}}
+
+/* ---------- painel e entrada ---------- */
+const card=document.getElementById('card'),places=document.getElementById('places');
+function show(id){const o=B.find(b=>b.id===id);card.style.setProperty('--acc','rgb('+o.acc.join(',')+')');
+  document.getElementById('ck').textContent=o.k;document.getElementById('ct').textContent=o.t;document.getElementById('cd').textContent=o.x;document.getElementById('cl').setAttribute('href','#'+o.to)}
+function choose(id){sel=id;kb=null;show(id);[...places.children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===id));if(reduce){for(const b of B){b.L=b.id===sel?1:0}update(0);render()}else kick()}
+B.forEach(o=>{const b=document.createElement('button');b.textContent=o.t;b.dataset.id=o.id;b.addEventListener('click',()=>choose(o.id));b.addEventListener('focus',()=>{if(b.matches(':focus-visible')){kb=o.id;kick()}});b.addEventListener('blur',()=>{if(kb===o.id)kb=null});
+  b.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;kb=o.id;show(o.id);kick()});b.addEventListener('pointerleave',e=>{if(e.pointerType!=='mouse')return;kb=null;show(sel)});places.append(b)});
+const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]};
+cv.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;ptr=pos(e);const h=hit(ptr[0],ptr[1]);if(h!==hov){hov=h;show(h?h.id:sel)}cv.style.cursor=h?'pointer':'default';kick()});
+cv.addEventListener('pointerleave',()=>{ptr=null;if(hov){hov=null;show(sel)}});
+cv.addEventListener('click',e=>{const p=pos(e),o=hit(p[0],p[1]);if(o)choose(o.id)});
+document.getElementById('hint').textContent=canHover?'PASSE O MOUSE PELA CIDADE: OS PRÉDIOS ACENDEM. CLIQUE PARA ABRIR.':'TOQUE EM UM PRÉDIO PARA ACENDER E ABRIR.';
+function size(){const s=innerWidth>1040?2:Math.max(1,Math.min(2,Math.floor((innerWidth-32)/W)));cv.style.width=W*s+'px'}
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.getElementById(a.getAttribute('href').slice(1));if(t){e.preventDefault();t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}}));
+addEventListener('resize',size);size();
+if('IntersectionObserver'in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting;kick()}).observe(cv);
+document.addEventListener('visibilitychange',kick);
+B[0].L=1;choose('carreira');update(0);render();kick();
+
+})();
+</script>
+</body>
+</html>
